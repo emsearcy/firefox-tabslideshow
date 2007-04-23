@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+
+    <Description about="urn:mozilla:install-manifest">
+
+    <em:id>{16466865-007f-4ce4-aeb5-a0aa8b34c61a}</em:id>
+    <em:name>Tab Slideshow</em:name>
+    <em:version>1.6</em:version>
+    <em:description>Cycles through tabs like a slideshow.</em:description>
+    <em:creator>Eric Searcy</em:creator>
+    <em:homepageURL>http://osuosl.org/</em:homepageURL>
+    <!--<em:updateURL>http://staff.osuosl.org/~emsearcy/firefox/update.rdf</em:updateURL>-->
+    <em:optionsURL>chrome://tabslideshow/content/settings.xul</em:optionsURL>
+
+    <em:targetApplication>
+        <Description>
+            <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+            <em:minVersion>1.0</em:minVersion>
+            <em:maxVersion>1.5.0.*</em:maxVersion>
+        </Description>
+    </em:targetApplication> 
+
+    <em:file>
+        <Description about="urn:mozilla:extension:file:tabslideshow.jar">
+            <em:package>content/</em:package>
+        </Description>
+    </em:file>
+
+    </Description>
+
+</RDF>

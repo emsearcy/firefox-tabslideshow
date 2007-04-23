@@ -1,0 +1,25 @@
+<?xml version='1.0'?>
+<?xml-stylesheet href='chrome://global/skin/' type='text/css'?>
+<?xml-stylesheet href="settings.css"?>
+
+<dialog xmlns='http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul'
+    id='tabslideshow-options-dialog'
+    title='Tab Slideshow Options'
+    buttons='accept,cancel'
+    onload='tabslideshowLoadOptions()'
+    ondialogaccept='tabslideshowSaveOptions()'>
+
+    <script type='application/x-javascript' src='chrome://tabslideshow/content/settings.js'/>
+
+    <vbox>
+        <groupbox>
+            <caption label='Tab Rotation Settings'/>
+            <checkbox id='tabslideshowRefresh' label='Refresh upcoming tab' checked='false'/>
+            <hbox>
+                <spinner id='tabslideshowTime' value='30' min='5' max='1200' step='1'/>
+                <label value='Time (seconds)'/>
+            </hbox>
+}
+        </groupbox>
+    </vbox>
+</dialog>

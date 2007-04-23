@@ -1,0 +1,115 @@
+/*
+ * Images licenses:
+ *
+ * -- Spinner arrows (1) --
+ *
+ * Original image names: arrow-(dn|up)-sharp.gif
+ * Source: Mozilla Firefox Classic Skin (win32)
+ * Author: Gerich and Horlander
+ * Url(s): http://www.mozilla.org/
+ *         http://lxr.mozilla.org/seamonkey/source/themes/classic/
+ * License: MPL 1.1 ?? (http://www.mozilla.org/MPL/)
+ * Sources: http://lxr.mozilla.org/seamonkey/source/themes/classic/global/arrow/
+ *
+ *
+ * -- Spinner arrows (2) -- 
+ * 
+ * Greyed ones where derivated by me and are licensed under same license as 
+ * original ones (MPL 1.1)
+ *
+ *
+ * -- Rounded warning sign (3) --
+ * Original image name: attenzione_rotondo_archi_01.svg
+ * Source: Open Clip Art Library
+ * Author: Architetto Francesco Rollandin
+ * Url(s): http://openclipart.org/
+ *         http://openclipart.org/clipart//signs_and_symbols/attenzione_rotondo_archi_01.svg
+ * License: pd CC (http://creativecommons.org/licenses/publicdomain/)
+ *
+ *
+ * Images were encoded as data-URI using "The data: URI kitchen":
+ * http://software.hixie.ch/utilities/cgi/data/data
+ *
+ */
+
+spinner .textbox-input-box 
+{
+  -moz-appearance: textfield;
+  margin: 2px 4px;
+  border: 2px solid;
+  -moz-border-top-colors: ThreeDShadow ThreeDDarkShadow;
+  -moz-border-right-colors: ThreeDHighlight ThreeDLightShadow;
+  -moz-border-bottom-colors: ThreeDHighlight ThreeDLightShadow;
+  -moz-border-left-colors: ThreeDShadow ThreeDDarkShadow;
+  padding: 2px 2px 3px 4px;
+  background-color: -moz-Field;
+  color: -moz-FieldText;
+  cursor: text;
+}
+
+spinner .textbox-input-box[disabled="true"] 
+{
+  cursor: default;
+  background-color: -moz-Dialog ;
+  color: GrayText ;
+} 
+
+spinner[disabled="true"] .down, 
+spinner[disabled="true"] .up 
+{
+  cursor: default;
+}
+
+
+spinner .textbox-input 
+{
+  background-color: transparent !important;
+  color: inherit !important;
+}
+
+
+.down, .up 
+{
+  cursor: pointer;
+  background-color: inherit;
+  color: inherit;
+}
+
+.down, .down:hover 
+{
+  /* image license: cf. (1) */
+  list-style-image: url(data:image/gif;base64,R0lGODlhCQAFAIABAAAAAAAAACH5BAEAAAEALAAAAAAJAAUAAAIKhH%2BBGYoNGWxgFgA7) !important;
+  margin-top: 1px;
+}
+
+.up, .up:hover 
+{
+  /* image license: cf. (1) */
+  list-style-image: url(data:image/gif;base64,R0lGODlhCQAFAIABAAAAAP%2F%2F%2FyH5BAEAAAEALAAAAAAJAAUAAAILjAOnwIrcDJxvwgIAOw%3D%3D) !important;
+  margin-bottom: 2px;
+}
+
+spinner[disabled="true"] .down, 
+spinner[disabled="true"] .down:hover 
+{
+  /* image license: cf. (2) */
+  list-style-image: url(data:image/gif;base64,R0lGODlhCQAFAIABAKemqv%2F%2F%2FyH5BAEAAAEALAAAAAAJAAUAAAIKhH%2BBGYoNGWxgFgA7) !important;
+}
+
+spinner[disabled="true"] .up, 
+spinner[disabled="true"] .up:hover 
+{
+  /* image license: cf. (2) */
+  list-style-image: url(data:image/gif;base64,R0lGODlhCQAFAIABAKemqv%2F%2F%2FyH5BAEAAAEALAAAAAAJAAUAAAILjAOnwIrcDJxvwgIAOw%3D%3D) !important;
+}
+
+.textbox-input-box menupopup {
+  cursor: default;
+}
+
+spinner tooltip image[anonid="tooltip-image"] {
+  /* image license: cf. (3) */
+  list-style-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8%2F9hAAAAIGNIUk0AAHomAACAhAAA%2BgAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAEZ0FNQQAAsY58%2B1GTAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A%2FwD%2FoL2nkwAAAAlwSFlzAAC4jAAAuIwBzPa7LwAAAudJREFUeNptkztoFEEYx%2F8zO5vb3CPeJSZnYojRBBSMbyVGBAWxsAhYKEGxEG18FCKmEwsLK7WwEW1EwUdErG0iQgoFUUhMExCNBtScd5fkcrd7t4%2BZ8ds9EkJwYPb1fd9v%2Ft9%2FZhlWjfFTOMgZP5fqSh0xG41OQHPP9vL2n%2Bpb31d3d4%2Fg08p8tvQwfRbWos8fr9vbOpTexWG2lQARUERDOQ1Q8yaKHwP8nXSeNAl1YeNj1MI6I7y8OwxhZa03m453Dq4ZyEOsXQCkgPPDgHIZGrJVGJkaEr0KiXhi59yMd2h4O17cG0cQAa4e4Ld7BrtON26fgV7MQs1ugS50o4JL8O1dMIt5sFgVPOESLICQ8Q1%2Fp72%2BB1%2Fw0vh8Er0de9qfNfWXmc5tBipdYDoBr1yDtf86mNUCIzcKNdcE5WuASzBqSbtyy9l29ZqbFr%2Bc3tbIYafpY5oSTDBhoTpPq7V2k%2Bx%2BOMUqucWgcml4Uy2UZyDVISgPN3hqfeqkEZdkUjb0a3lInay7bFrwZWb1ZkHEGJJrcZSbcdGunRi0UgSQIJ3QQRWKrygSrRRTxNfRrkDTlAoNcWSEDgMkifGAQh7FNKnltHLzcn3EjuBBHRROL4hYIrDdgvb9NgheJ1OiJoCam8DC%2BxEwQ8BwpyKFIURHEILZEjUHBWHPVseC0sIJkc5EZBYmkGHNGwXkzM2oIJYl8dIj2X70riu10CTYRTzlfqBvObkKZHmeeq9RYq1%2BJx%2Bckgm7nIJ0wwJqT9F0KFbyQTcojSfGw0nMnmkP2lKpYB%2FzKdhAfpDExV8BMmfGkBy4gsLoI8QsWqBkQy94kNRt7iue73iG%2Bzw0qcnEtd9T%2Fqi0XaifvxHk8nT%2Bq%2FV%2BQ8muB%2FVnEbrsQ9LZnf2GDwkD5%2F%2FzM%2BFuW4%2B4GE8oxgIFu2JB0WlJNlbIboCYyH%2FHQ8PF8NZXdNJXApbGxBD6NMO1eDM7FksiG%2B4MdVYkw0Zp6%2B%2Bs%2Fp3%2FAWtGhQPTOdOHAAAAAElFTkSuQmCC);
+  height: 16px;
+  width: 16px;
+}
