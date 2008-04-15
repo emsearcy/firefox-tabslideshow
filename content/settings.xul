@@ -2,24 +2,30 @@
 <?xml-stylesheet href='chrome://global/skin/' type='text/css'?>
 <?xml-stylesheet href="settings.css"?>
 
-<dialog xmlns='http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul'
-    id='tabslideshow-options-dialog'
+<!--
+settings.xul
+
+Tab Slideshow Firefox extension
+emsearcy@osuosl.org
+
+Licensed under MPL (http://www.mozilla.org/MPL/MPL-1.1.html)
+-->
+
+<prefwindow id='tabslideshow-options-dialog'
     title='Tab Slideshow Options'
-    buttons='accept,cancel'
-    onload='tabslideshowLoadOptions()'
-    ondialogaccept='tabslideshowSaveOptions()'>
+    xmlns='http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul'>
 
-    <script type='application/x-javascript' src='chrome://tabslideshow/content/settings.js'/>
+<prefpane id='pane0' label='Tab Slideshow'>
+    <preferences>
+        <preference id='pref_refresh' name='tabslideshow.refresh' type='bool'/>
+        <preference id='pref_time' name='tabslideshow.time' type='int'/>
+    </preferences>
 
-    <vbox>
-        <groupbox>
-            <caption label='Tab Rotation Settings'/>
-            <checkbox id='tabslideshowRefresh' label='Refresh upcoming tab' checked='false'/>
-            <hbox>
-                <spinner id='tabslideshowTime' value='30' min='5' max='1200' step='1'/>
-                <label value='Time (seconds)'/>
-            </hbox>
-}
-        </groupbox>
-    </vbox>
-</dialog>
+    <checkbox preference='pref_refresh' id='refresh' label='Refresh upcoming tab'/>
+    <hbox>
+        <spinner preferenc='pref_time' id='time' min='5' max='1200' step='1'/>
+        <label value='Time (seconds)'/>
+    </hbox>
+</prefpane>
+
+</prefwindow>

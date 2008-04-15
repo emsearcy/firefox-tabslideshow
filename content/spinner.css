@@ -3,7 +3,8 @@
  *
  * -- Spinner arrows (1) --
  *
- * Original image names: arrow-(dn|up)-sharp.gif
+ * Original image names: arrow-dn-dis.gif arrow-dn.gif 
+ *                       arrow-up-dis.gif arrow-up.gif
  * Source: Mozilla Firefox Classic Skin (win32)
  * Author: Gerich and Horlander
  * Url(s): http://www.mozilla.org/
@@ -30,10 +31,12 @@
  * Images were encoded as data-URI using "The data: URI kitchen":
  * http://software.hixie.ch/utilities/cgi/data/data
  *
+ * After bug 155053 - [Core:Themes]-Make the spinbuttons a real widget [All]
+ * landing, I made some modifications following Neil Deakin's work.
+ *
  */
 
-spinner .textbox-input-box 
-{
+spinner .textbox-input-box {
   -moz-appearance: textfield;
   margin: 2px 4px;
   border: 2px solid;
@@ -41,70 +44,132 @@ spinner .textbox-input-box
   -moz-border-right-colors: ThreeDHighlight ThreeDLightShadow;
   -moz-border-bottom-colors: ThreeDHighlight ThreeDLightShadow;
   -moz-border-left-colors: ThreeDShadow ThreeDDarkShadow;
-  padding: 2px 2px 3px 4px;
+  padding: 0;
+  padding-left: 2px;
   background-color: -moz-Field;
   color: -moz-FieldText;
   cursor: text;
 }
 
-spinner .textbox-input-box[disabled="true"] 
-{
+spinner[disabled="true"] .textbox-input-box {
   cursor: default;
   background-color: -moz-Dialog ;
   color: GrayText ;
 } 
 
-spinner[disabled="true"] .down, 
-spinner[disabled="true"] .up 
-{
+spinner .textbox-input {
+  background-color: transparent !important;
+  color: inherit !important;
+  margin: 0 2px !important;
+}
+
+spinner spinbuttons {
+  height: 24px;
+  min-height: 24px;
+  -moz-appearance: spinner;
   cursor: default;
 }
 
-
-spinner .textbox-input 
-{
-  background-color: transparent !important;
-  color: inherit !important;
+.spinbuttons-button {
+  min-width: 13px;
+  min-height: 11px;
+  border: 2px solid;
+  -moz-border-top-colors: ThreeDHighlight ThreeDLightShadow;
+  -moz-border-right-colors: ThreeDDarkShadow ThreeDShadow;
+  -moz-border-bottom-colors: ThreeDDarkShadow ThreeDShadow;
+  -moz-border-left-colors: ThreeDHighlight ThreeDLightShadow;
+  background-color: ThreeDFace;
 }
 
+.spinbuttons-button > .button-box {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
 
-.down, .up 
+.spinbuttons-button[disabled="true"] > .button-box {
+  padding: 0 !important;
+}
+
+.spinbuttons-button:hover:active
 {
+  border: 2px solid;
+  -moz-border-top-colors: ThreeDDarkShadow ThreeDShadow;
+  -moz-border-right-colors: ThreeDDarkShadow ThreeDShadow;
+  -moz-border-bottom-colors: ThreeDDarkShadow ThreeDShadow;
+  -moz-border-left-colors: ThreeDDarkShadow ThreeDShadow;
+}
+
+.spinbuttons-button[disabled="true"] {
+  border: 2px solid;
+  -moz-border-top-colors: ThreeDHighlight ThreeDLightShadow !important;
+  -moz-border-right-colors: ThreeDDarkShadow ThreeDShadow !important;
+  -moz-border-bottom-colors: ThreeDDarkShadow ThreeDShadow !important;
+  -moz-border-left-colors: ThreeDHighlight ThreeDLightShadow !important;
+}
+
+spinner[disabled="true"] .down, 
+spinner[disabled="true"] .up {
+  cursor: default;
+}
+
+.up, .down {
   cursor: pointer;
   background-color: inherit;
   color: inherit;
 }
 
-.down, .down:hover 
-{
+.spinbuttons-up {
   /* image license: cf. (1) */
-  list-style-image: url(data:image/gif;base64,R0lGODlhCQAFAIABAAAAAAAAACH5BAEAAAEALAAAAAAJAAUAAAIKhH%2BBGYoNGWxgFgA7) !important;
-  margin-top: 1px;
+  -moz-appearance: spinner-upbutton;
+  min-width: 12px;
+  margin: 0 !important;
+  background-image: url(data:image/gif;base64,R0lGODlhBQADAIABAAAAAP///yH5BAEAAAEALAAAAAAFAAMAAAIFTGAHuF0AOw==);
+  background-position: center center;
+  background-repeat: no-repeat;
 }
 
-.up, .up:hover 
-{
+.up {
   /* image license: cf. (1) */
-  list-style-image: url(data:image/gif;base64,R0lGODlhCQAFAIABAAAAAP%2F%2F%2FyH5BAEAAAEALAAAAAAJAAUAAAILjAOnwIrcDJxvwgIAOw%3D%3D) !important;
-  margin-bottom: 2px;
+  list-style-image: url(data:image/gif;base64,R0lGODlhCQAFAIABAAAAAP%2F%2F%2FyH5BAEAAAEALAAAAAAJAAUAAAILjAOnwIrcDJxvwgIAOw%3D%3D);
+  margin: 2px 0;
+  padding: 3px 2px 2px 0;
 }
 
-spinner[disabled="true"] .down, 
-spinner[disabled="true"] .down:hover 
-{
+spinner[disabled="true"] .up {
   /* image license: cf. (2) */
-  list-style-image: url(data:image/gif;base64,R0lGODlhCQAFAIABAKemqv%2F%2F%2FyH5BAEAAAEALAAAAAAJAAUAAAIKhH%2BBGYoNGWxgFgA7) !important;
+  list-style-image: url(data:image/gif;base64,R0lGODlhCQAFAIABAKemqv%2F%2F%2FyH5BAEAAAEALAAAAAAJAAUAAAILjAOnwIrcDJxvwgIAOw%3D%3D);
 }
 
-spinner[disabled="true"] .up, 
-spinner[disabled="true"] .up:hover 
-{
+.spinbuttons-up[disabled="true"] {
+  /* image license: cf. (1) */
+  list-style-image: url(data:image/gif;base64,R0lGODlhBQADAIABAH9/f////yH5BAEAAAEALAAAAAAFAAMAAAIFTGAHuF0AOw==);
+}
+
+.spinbuttons-down {
+  /* image license: cf. (1) */
+  -moz-appearance: spinner-downbutton;
+  min-width: 12px;
+  margin: 0 !important;
+  background-image: url(data:image/gif;base64,R0lGODlhBQADAIABAAAAAP///yH5BAEAAAEALAAAAAAFAAMAAAIFhB0XC1sAOw==);
+  background-position: center center;
+  background-repeat: no-repeat
+}
+
+.down {
+  /* image license: cf. (1) */
+  list-style-image: url(data:image/gif;base64,R0lGODlhCQAFAIABAAAAAAAAACH5BAEAAAEALAAAAAAJAAUAAAIKhH%2BBGYoNGWxgFgA7);
+  padding-right: 2px;
+}
+
+spinner[disabled="true"] .down {
   /* image license: cf. (2) */
-  list-style-image: url(data:image/gif;base64,R0lGODlhCQAFAIABAKemqv%2F%2F%2FyH5BAEAAAEALAAAAAAJAAUAAAILjAOnwIrcDJxvwgIAOw%3D%3D) !important;
+  list-style-image: url(data:image/gif;base64,R0lGODlhCQAFAIABAKemqv%2F%2F%2FyH5BAEAAAEALAAAAAAJAAUAAAIKhH%2BBGYoNGWxgFgA7);
 }
 
-.textbox-input-box menupopup {
-  cursor: default;
+.spinbuttons-down[disabled="true"] {
+  /* image license: cf. (1) */
+  list-style-image: url(data:image/gif;base64,R0lGODlhBQADAIABAH9/f////yH5BAEAAAEALAAAAAAFAAMAAAIFhB0XC1sAOw==);
 }
 
 spinner tooltip image[anonid="tooltip-image"] {

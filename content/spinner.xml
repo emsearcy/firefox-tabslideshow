@@ -52,8 +52,16 @@
                 tooltip="_child" >
         <html:input class="textbox-input" flex="1" anonid="input" 
                     xbl:inherits="onfocus,onblur,disabled,tabindex,readonly,value,type,maxlength,size,accesskey" />
+        <!--
+          The onup and ondown below are hacky but the onup="up();" doesn't work on Trunk
+          where onup="this.parentNode.parentNode.up();" works. On 1.5 & 1.6a1, the onup="up();"
+          works fine.
+          https://bugzilla.mozilla.org/show_bug.cgi?id=260487 ??
+        -->
         <xul:spinbuttons class="spinner-spins" anonid="spins" 
-                         onup="up();" ondown="down();" />
+                         onup="if (this.parentNode.parentNode.up) this.parentNode.parentNode.up(); else up();" 
+                         ondown="if (this.parentNode.parentNode.up) this.parentNode.parentNode.down(); else down();"
+                         xbl:inherits="disabled" />
         <xul:tooltip anonid="tooltip" align="center">
           <xul:image anonid="tooltip-image" />
           <xul:label anonid="tooltip-label" />
@@ -137,7 +145,7 @@
         /* style 'width' computation */
         var p = ( this.precision == 0 ) ? 0 : this.precision + .55; // .55 is for the "."
         var tib = document.getAnonymousElementByAttribute(this, "class", "textbox-input-box");
-        tib.style.width = ( ( p + this.width ) * .55 + 2.2 ) + "em";
+        tib.style.width = ( ( p + this.width ) * .55 + 2.5 ) + "em";
         
         /* set maxLength */
         var ti = document.getAnonymousElementByAttribute(this, "class", "textbox-input");
