@@ -1,6 +1,5 @@
 <?xml version='1.0'?>
 <?xml-stylesheet href='chrome://global/skin/' type='text/css'?>
-<?xml-stylesheet href="settings.css"?>
 
 <!--
 settings.xul
@@ -21,11 +20,9 @@ Licensed under MPL (http://www.mozilla.org/MPL/MPL-1.1.html)
         <preference id='pref_time' name='tabslideshow.time' type='int'/>
     </preferences>
 
-    <checkbox preference='pref_refresh' id='refresh' label='Refresh upcoming tab'/>
-    <hbox>
-        <spinner preference='pref_time' id='time' min='5' max='1200' step='1'/>
-        <label value='Time (seconds)'/>
-    </hbox>
+    <checkbox preference='pref_refresh' id='pane0_refresh' label='Refresh upcoming tab'/>
+    <label value='Time (seconds):'/>
+    <textbox preference='pref_time' id='pane0_time' type='number' min='5' max='1800'/>
 </prefpane>
 
 </prefwindow>

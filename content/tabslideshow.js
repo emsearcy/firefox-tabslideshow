@@ -33,13 +33,11 @@ var tabslideshow = {
     },
 
     // timer function to cycle tabs
-    cycle: function()
+    cycle: function(p_this)
     {
-        alert('cycle');
-
         // only cycle if active
-        if (!this.active < 2) {
-            this.active = 0;
+        if (p_this.active < 2) {
+            p_this.active = 0;
             return;
         }
 
@@ -55,12 +53,12 @@ var tabslideshow = {
         gBrowser.selectedTab = nexttab;
 
         // optionally refresh upcoming tab
-        if (refresh && (nexttab != upcomingtab)) {
+        if (p_this.refresh && (nexttab != upcomingtab)) {
             gBrowser.reloadTab(upcomingtab);
         }
 
         // next cycle
-        setTimeout(this.cycle, 1000 * this.time);
+        setTimeout(p_this.cycle, 1000 * p_this.time, p_this);
     },
 
     // handler for prefs change
@@ -73,7 +71,7 @@ var tabslideshow = {
                 this.time = this.prefs.getIntPref('time');
                 break;
             case 'refresh':
-                this.refresh = this.prefs.getBoolProf('refresh');
+                this.refresh = this.prefs.getBoolPref('refresh');
                 break;
         }
     },
@@ -96,7 +94,7 @@ var tabslideshow = {
             var node = document.getElementById('tabslideshow-toggle');
             if (node) node.setAttribute('label', 'Stop Tab Slideshow');
             this.active = 2;
-            setTimeout(this.cycle, 1000 * this.time);
+            setTimeout(this.cycle, 1000 * this.time, this);
         }
     },
 
