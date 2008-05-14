@@ -23,7 +23,7 @@ Licensed under MPL (http://www.mozilla.org/MPL/MPL-1.1.html)
 
     <checkbox preference='pref_refresh' id='refresh' label='Refresh upcoming tab'/>
     <hbox>
-        <spinner preferenc='pref_time' id='time' min='5' max='1200' step='1'/>
+        <spinner preference='pref_time' id='time' min='5' max='1200' step='1'/>
         <label value='Time (seconds)'/>
     </hbox>
 </prefpane>
