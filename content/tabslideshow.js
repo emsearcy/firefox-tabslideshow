@@ -2,7 +2,7 @@
  * tabslideshow.js
  *
  * Tab Slideshow Firefox extension
- * emsearcy@osuosl.org
+ * emsearcy@gmail.com
  *
  * Licensed under MPL (http://www.mozilla.org/MPL/MPL-1.1.html)
  */
