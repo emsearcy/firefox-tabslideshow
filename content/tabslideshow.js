@@ -30,6 +30,11 @@ var tabslideshow = {
 
         this.time = this.prefs.getIntPref('time');
         this.refresh = this.prefs.getBoolPref('refresh');
+
+        // initial fullscreen
+        if (this.prefs.getBoolPref('start')) {
+            this.toggle();
+        }
     },
 
     // timer function to cycle tabs
