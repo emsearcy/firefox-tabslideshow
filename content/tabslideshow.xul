@@ -12,12 +12,24 @@ Licensed under MPL (http://www.mozilla.org/MPL/MPL-1.1.html)
 <overlay id='tabslideshow' 
     xmlns='http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul'>
 
-<script type='application/x-javascript'
-    src='chrome://tabslideshow/content/tabslideshow.js'></script>
+  <script type='application/x-javascript'
+      src='chrome://tabslideshow/content/tabslideshow.js'></script>
 
-<menupopup id='menu_ToolsPopup'>
+  <menupopup id='menu_ToolsPopup'>
     <menuitem id='tabslideshow-toggle' label='Start Tab Slideshow' accesskey='T'
         insertafter='devToolsSeparator' oncommand='tabslideshow.toggle()'/>
-</menupopup>
+  </menupopup>
+
+  <popupset id="mainPopupSet">
+    <menupopup id="tabslideshowPopup">
+      <menuseparator id="tabslideshow-separator"/>
+      <menuitem id="tabslideshow-refresh" label="Slideshow Refresh" type="checkbox"
+          oncommand="tabslideshow.togglerefresh(gBrowser.mContextTab);"
+          autocheck="false" insertbefore="context_closeTab"/>
+    </menupopup>
+  </popupset>
 
 </overlay>
+
+<!-- vim: ai et sw=2
+-->
