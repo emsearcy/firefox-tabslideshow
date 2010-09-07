@@ -13,7 +13,7 @@ Licensed under MPL (http://www.mozilla.org/MPL/MPL-1.1.html)
     xmlns='http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul'>
 
   <script type='application/x-javascript'
-      src='chrome://tabslideshow/content/tabslideshow.js'></script>
+      src='chrome://tabslideshow/content/tabslideshow.js'/>
 
   <menupopup id='menu_ToolsPopup'>
     <menuitem id='tabslideshow-toggle' label='Start Tab Slideshow' accesskey='T'
@@ -23,9 +23,9 @@ Licensed under MPL (http://www.mozilla.org/MPL/MPL-1.1.html)
   <popupset id="mainPopupSet">
     <menupopup id="tabslideshowPopup">
       <menuseparator id="tabslideshow-separator"/>
-      <menuitem id="tabslideshow-refresh" label="Slideshow Refresh" type="checkbox"
-          oncommand="tabslideshow.togglerefresh(gBrowser.mContextTab);"
-          autocheck="false" insertbefore="context_closeTab"/>
+      <menuitem id="tabslideshow-refresh" label="Slideshow Refresh"
+          type="checkbox" autocheck="false" 
+          oncommand="tabslideshow.togglerefresh(gBrowser.mContextTab);"/>
     </menupopup>
   </popupset>
 
