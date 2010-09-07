@@ -168,7 +168,7 @@ var tabslideshow = {
             var node = document.getElementById('tabslideshow-toggle');
             if (node) node.setAttribute('label', 'Stop Tab Slideshow');
             this.active = 2;
-            setTimeout(this.cycle, 1000 * this.time, this);
+            setTimeout(this.cycle, 1500, this);
         }
     },
 
