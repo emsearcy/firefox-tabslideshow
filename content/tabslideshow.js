@@ -35,9 +35,9 @@ var tabslideshow = {
         // add tab context menu entries and hook
         var tabmenu = tabslideshow_gettabcontextmenu();
         tabmenu.insertBefore(document.getElementById('tabslideshow-refresh'),
-                document.getElementById('context_closeTab'));
+                document.getElementById('context_undoCloseTab'));
         tabmenu.insertBefore(document.getElementById('tabslideshow-separator'),
-                document.getElementById('context_closeTab'));
+                document.getElementById('context_undoCloseTab'));
         tabmenu.addEventListener('popupshowing', tabslideshow.tabmenushow,
                 false);
         // remove now-empty menupopup container
@@ -157,15 +157,21 @@ var tabslideshow = {
             // disabled
             var node = document.getElementById('tabslideshow-toggle');
             if (node) node.setAttribute('label', 'Start Tab Slideshow');
+            var node = document.getElementById('tabslideshow-appmenu-toggle');
+            if (node) node.setAttribute('label', 'Start Tab Slideshow');
             this.active = 1;
         } else if (this.active == 1) {
             // disabled with active timeout
             var node = document.getElementById('tabslideshow-toggle');
             if (node) node.setAttribute('label', 'Stop Tab Slideshow');
+            var node = document.getElementById('tabslideshow-appmenu-toggle');
+            if (node) node.setAttribute('label', 'Stop Tab Slideshow');
             this.active = 2;
         } else {
             // disabled, no active timeout
             var node = document.getElementById('tabslideshow-toggle');
+            if (node) node.setAttribute('label', 'Stop Tab Slideshow');
+            var node = document.getElementById('tabslideshow-appmenu-toggle');
             if (node) node.setAttribute('label', 'Stop Tab Slideshow');
             this.active = 2;
             setTimeout(this.cycle, 1500, this);

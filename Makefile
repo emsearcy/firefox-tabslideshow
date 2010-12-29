@@ -1,5 +1,5 @@
-tabslideshow.xpi: chrome/tabslideshow.jar chrome.manifest defaults install.rdf
-	zip -r tabslideshow.xpi chrome/ defaults/ chrome.manifest install.rdf
+tabslideshow.xpi: chrome/tabslideshow.jar chrome.manifest defaults icon.png install.rdf
+	zip -r tabslideshow.xpi chrome/ defaults/ chrome.manifest icon.png install.rdf
 
 chrome/tabslideshow.jar: content
 	@mkdir -p chrome
