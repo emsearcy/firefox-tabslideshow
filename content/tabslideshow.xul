@@ -1,4 +1,4 @@
-<?xml version='1.0'?>
+<?xml version="1.0"?>
 
 <!--
 tabslideshow.xul
@@ -9,29 +9,30 @@ emsearcy@gmail.com
 Licensed under MPL (http://www.mozilla.org/MPL/MPL-1.1.html)
 -->
 
-<overlay id='tabslideshow' 
-    xmlns='http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul'>
+<overlay id="tabslideshow" 
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-  <script type='application/x-javascript'
-      src='chrome://tabslideshow/content/tabslideshow.js'/>
+  <script type="application/x-javascript"
+      src="chrome://tabslideshow/content/tabslideshow.js" />
 
-  <menupopup id='menu_ToolsPopup'>
-    <menuitem id='tabslideshow-toggle' label='Start Tab Slideshow' accesskey='T'
-        insertafter='devToolsSeparator' oncommand='tabslideshow.toggle()'/>
+  <menupopup id="menu_ToolsPopup">
+    <menuitem id="tabslideshow-toggle" label="Start Tab Slideshow" accesskey="T"
+        insertafter="devToolsSeparator" oncommand="tabslideshow.toggle()" />
   </menupopup>
 
   <!-- Firefox 4 on Windows Vista and 7 -->
-  <vbox id='appmenuPrimaryPane'>
-    <menuitem id='tabslideshow-appmenu-toggle' label='Start Tab Slideshow'
-        insertafter='appmenu_privateBrowsing' oncommand='tabslideshow.toggle()'/>
+  <vbox id="appmenuPrimaryPane">
+    <menuitem id="tabslideshow-appmenu-toggle" label="Start Tab Slideshow"
+        insertafter="appmenu_privateBrowsing" oncommand="tabslideshow.toggle()"
+        />
   </vbox>
 
   <popupset id="mainPopupSet">
     <menupopup id="tabslideshowPopup">
-      <menuseparator id="tabslideshow-separator"/>
+      <menuseparator id="tabslideshow-separator" />
       <menuitem id="tabslideshow-refresh" label="Slideshow Refresh"
-          type="checkbox" autocheck="false" 
-          oncommand="tabslideshow.togglerefresh(gBrowser.mContextTab);"/>
+          type="checkbox" autocheck="false" accesskey="S"
+          oncommand="tabslideshow.togglerefresh(gBrowser.mContextTab);" />
     </menupopup>
   </popupset>
 

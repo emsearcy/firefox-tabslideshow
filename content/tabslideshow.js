@@ -34,10 +34,19 @@ var tabslideshow = {
 
         // add tab context menu entries and hook
         var tabmenu = tabslideshow_gettabcontextmenu();
-        tabmenu.insertBefore(document.getElementById('tabslideshow-refresh'),
-                document.getElementById('context_undoCloseTab'));
-        tabmenu.insertBefore(document.getElementById('tabslideshow-separator'),
-                document.getElementById('context_undoCloseTab'));
+        var target = document.getElementById('context_openTabInWindow');
+        if (target) target = target.nextSibling;
+        if (target) {
+            tabmenu.insertBefore(document.getElementById(
+                    'tabslideshow-separator'), target);
+            tabmenu.insertBefore(document.getElementById(
+                    'tabslideshow-refresh'), target);
+        } else {
+            tabmenu.appendChild(document.getElementById(
+                    'tabslideshow-separator'));
+            tabmenu.appendChild(document.getElementById(
+                    'tabslideshow-refresh'));
+        }
         tabmenu.addEventListener('popupshowing', tabslideshow.tabmenushow,
                 false);
         // remove now-empty menupopup container
@@ -55,7 +64,7 @@ var tabslideshow = {
                 tabslideshow.checknewtab(e);
             }, false);
 
-        // initial fullscreen
+        // initial slideshow
         if (this.prefs.getBoolPref('start')) {
             this.toggle();
         }
@@ -82,8 +91,7 @@ var tabslideshow = {
         gBrowser.selectedTab = nexttab;
 
         // optionally refresh upcoming tab
-        if (p_this.refresh && upcomingtab.tabslideshowrefresh &&
-                (nexttab != upcomingtab)) {
+        if (upcomingtab.tabslideshowrefresh && (nexttab != upcomingtab)) {
             gBrowser.reloadTab(upcomingtab);
         }
 
@@ -109,38 +117,36 @@ var tabslideshow = {
     // handle new tab refresh settings
     checknewtab: function(e)
     {
-        Components.utils.reportError("checknewtab")
+        //Components.utils.reportError("checknewtab")
         e.target.tabslideshowrefresh = this.refresh;
     },
 
     // per-tab menu adjustments
     tabmenushow: function(e)
     {
-        Components.utils.reportError('tabmenushow');
-
+        //Components.utils.reportError('tabmenushow');
         if (e.originalTarget != gBrowser.tabContextMenu) {
-            Components.utils.reportError("branch A")
             return true;
         }
 
         var item;
         var refresh = document.getElementById('tabslideshow-refresh');
         if (document.popupNode.parentNode) {
-            Components.utils.reportError("branch B")
             item = document.popupNode.parentNode.parentNode.id;
         }
         // XXX: copied from tabmixplus, not sure what does
         if (item && (item == "btn_tabslist" || item == "btn_tabslistSorted" ||
                 item == "alltabs-button")) {
-            Components.utils.reportError("branch C")
             gBrowser.mContextTab = document.popupNode.tab;
         }
 
+        // detect whether clicked right of tabs (not needed in Firefox 4)
         var clickOutTabs = document.popupNode.localName == "tabs";
         var aTab = clickOutTabs ? gBrowser.mCurrentTab : gBrowser.mContextTab;
            
-        if (clickOutTabs) refresh.disabled = true;
-        else refresh.disabled = false;
+        // disable refresh option for current tab when clicked outside
+        //if (clickOutTabs) refresh.setAttribute("disabled", "true");
+        //else refresh.setAttribute("disabled", "false");
 
         if (aTab.tabslideshowrefresh) {
             refresh.setAttribute("checked", "true");
@@ -181,7 +187,7 @@ var tabslideshow = {
     // change refresh flag on tab
     togglerefresh: function(e)
     {
-        Components.utils.reportError('togglerefresh');
+        //Components.utils.reportError('togglerefresh');
         e.tabslideshowrefresh = !e.tabslideshowrefresh;
     },
 
