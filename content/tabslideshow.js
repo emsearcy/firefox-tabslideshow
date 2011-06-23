@@ -14,9 +14,10 @@ var tabslideshow = {
         1: going to inactive (next timeout)
         2: active
     */
-    active: 0,
-    time: 5,
+    active: true,
+    delay: 5,
     refresh: false,
+    timer: null,
 
     // initialize the extension
     startup: function()
@@ -27,9 +28,11 @@ var tabslideshow = {
                 .getBranch('tabslideshow.');
         this.prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
         this.prefs.addObserver('', this, false);
+        this.timer = Components.classes["@mozilla.org/timer;1"]
+                .createInstance(Components.interfaces.nsITimer);
 
         // save prefs
-        this.time = this.prefs.getIntPref('time');
+        this.delay = this.prefs.getIntPref('time');
         this.refresh = this.prefs.getBoolPref('refresh');
 
         // add tab context menu entries and hook
@@ -54,7 +57,7 @@ var tabslideshow = {
         popup.parentNode.removeChild(popup);
 
         // initial tabs refresh settings
-        for ( var tab in gBrowser.tabContainer.childNodes ) {
+        for (var tab in gBrowser.tabContainer.childNodes) {
             gBrowser.tabContainer.childNodes[tab].tabslideshowrefresh =
                     this.refresh;
         }
@@ -74,8 +77,7 @@ var tabslideshow = {
     cycle: function(p_this)
     {
         // only cycle if active
-        if (p_this.active < 2) {
-            p_this.active = 0;
+        if (!p_this.active) {
             return;
         }
 
@@ -96,7 +98,7 @@ var tabslideshow = {
         }
 
         // next cycle
-        setTimeout(p_this.cycle, 1000 * p_this.time, p_this);
+        setTimeout(p_this.cycle, 1000 * p_this.delay, p_this);
     },
 
     // handler for prefs change
@@ -106,7 +108,7 @@ var tabslideshow = {
 
         switch(data) {
             case 'time':
-                this.time = this.prefs.getIntPref('time');
+                this.delay = this.prefs.getIntPref('time');
                 break;
             case 'refresh':
                 this.refresh = this.prefs.getBoolPref('refresh');
@@ -159,20 +161,20 @@ var tabslideshow = {
     // toggle whether slideshowing
     toggle: function()
     {
-        if (this.active == 2) {
-            // disabled
+        if (this.active) {
+            // enabled
             var node = document.getElementById('tabslideshow-toggle');
             if (node) node.setAttribute('label', 'Start Tab Slideshow');
             var node = document.getElementById('tabslideshow-appmenu-toggle');
             if (node) node.setAttribute('label', 'Start Tab Slideshow');
-            this.active = 1;
+            this.active = false;
         } else if (this.active == 1) {
             // disabled with active timeout
             var node = document.getElementById('tabslideshow-toggle');
             if (node) node.setAttribute('label', 'Stop Tab Slideshow');
             var node = document.getElementById('tabslideshow-appmenu-toggle');
             if (node) node.setAttribute('label', 'Stop Tab Slideshow');
-            this.active = 2;
+            this.active = true;
         } else {
             // disabled, no active timeout
             var node = document.getElementById('tabslideshow-toggle');
