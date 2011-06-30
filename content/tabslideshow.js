@@ -14,7 +14,7 @@ var tabslideshow = {
         1: going to inactive (next timeout)
         2: active
     */
-    active: true,
+    active: false,
     delay: 5,
     refresh: false,
     timer: null,
@@ -22,6 +22,7 @@ var tabslideshow = {
     // initialize the extension
     startup: function()
     {
+        Components.utils.reportError("startup");
         // grab services
         this.prefs = Components.classes['@mozilla.org/preferences-service;1']
                 .getService(Components.interfaces.nsIPrefService)
@@ -73,34 +74,6 @@ var tabslideshow = {
         }
     },
 
-    // timer function to cycle tabs
-    cycle: function(p_this)
-    {
-        // only cycle if active
-        if (!p_this.active) {
-            return;
-        }
-
-        // get tab info
-        var numtabs = gBrowser.tabContainer.childNodes.length;
-        var currenttabnum = gBrowser.tabContainer.selectedIndex;
-        var nexttab = gBrowser.tabContainer.childNodes[
-            (currenttabnum + 1) % numtabs];
-        var upcomingtab = gBrowser.tabContainer.childNodes[
-            (currenttabnum + 2) % numtabs];
-
-        // set next tab
-        gBrowser.selectedTab = nexttab;
-
-        // optionally refresh upcoming tab
-        if (upcomingtab.tabslideshowrefresh && (nexttab != upcomingtab)) {
-            gBrowser.reloadTab(upcomingtab);
-        }
-
-        // next cycle
-        setTimeout(p_this.cycle, 1000 * p_this.delay, p_this);
-    },
-
     // handler for prefs change
     observe: function(subject, topic, data)
     {
@@ -119,7 +92,7 @@ var tabslideshow = {
     // handle new tab refresh settings
     checknewtab: function(e)
     {
-        //Components.utils.reportError("checknewtab")
+        Components.utils.reportError("checknewtab");
         e.target.tabslideshowrefresh = this.refresh;
     },
 
@@ -161,28 +134,25 @@ var tabslideshow = {
     // toggle whether slideshowing
     toggle: function()
     {
+        Components.utils.reportError("toggle");
         if (this.active) {
             // enabled
             var node = document.getElementById('tabslideshow-toggle');
             if (node) node.setAttribute('label', 'Start Tab Slideshow');
             var node = document.getElementById('tabslideshow-appmenu-toggle');
             if (node) node.setAttribute('label', 'Start Tab Slideshow');
+            this.timer.cancel();
             this.active = false;
-        } else if (this.active == 1) {
-            // disabled with active timeout
-            var node = document.getElementById('tabslideshow-toggle');
-            if (node) node.setAttribute('label', 'Stop Tab Slideshow');
-            var node = document.getElementById('tabslideshow-appmenu-toggle');
-            if (node) node.setAttribute('label', 'Stop Tab Slideshow');
-            this.active = true;
         } else {
-            // disabled, no active timeout
+            // disabled
             var node = document.getElementById('tabslideshow-toggle');
             if (node) node.setAttribute('label', 'Stop Tab Slideshow');
             var node = document.getElementById('tabslideshow-appmenu-toggle');
             if (node) node.setAttribute('label', 'Stop Tab Slideshow');
-            this.active = 2;
-            setTimeout(this.cycle, 1500, this);
+            Components.utils.reportError("init timer");
+
+            this.timer.initWithCallback(tabslideshow_cycle, this.delay*1000, Components.interfaces.nsITimer.TYPE_REPEATING_PRECISE);
+            this.active = true;
         }
     },
 
@@ -197,8 +167,31 @@ var tabslideshow = {
     shutdown: function()
     {
         this.prefs.removeObserver("", this);
+        this.timer.cancel();
     },
 
+}
+
+// timer event with function to cycle tabs
+var tabslideshow_cycle = {
+    notify: function(timer) {
+        Components.utils.reportError("cycle.notify");
+        // get tab info
+        var numtabs = gBrowser.tabContainer.childNodes.length;
+        var currenttabnum = gBrowser.tabContainer.selectedIndex;
+        var nexttab = gBrowser.tabContainer.childNodes[
+            (currenttabnum + 1) % numtabs];
+        var upcomingtab = gBrowser.tabContainer.childNodes[
+            (currenttabnum + 2) % numtabs];
+
+        // set next tab
+        gBrowser.selectedTab = nexttab;
+
+        // optionally refresh upcoming tab
+        if (upcomingtab.tabslideshowrefresh && (nexttab != upcomingtab)) {
+            gBrowser.reloadTab(upcomingtab);
+        }
+    }
 }
 
 // return tab context menu
@@ -222,6 +215,7 @@ function tabslideshow_gettabcontextmenu()
     return gBrowser.tabContextMenu;
 }
 
+Components.utils.reportError("init");
 window.addEventListener('load', function(e) { tabslideshow.startup(); },
         false);
 window.addEventListener('unload', function(e) { tabslideshow.shutdown(); },
