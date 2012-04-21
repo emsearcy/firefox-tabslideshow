@@ -22,7 +22,6 @@ var tabslideshow = {
     // initialize the extension
     startup: function()
     {
-        Components.utils.reportError("startup");
         // grab services
         this.prefs = Components.classes['@mozilla.org/preferences-service;1']
                 .getService(Components.interfaces.nsIPrefService)
@@ -82,6 +81,11 @@ var tabslideshow = {
         switch(data) {
             case 'time':
                 this.delay = this.prefs.getIntPref('time');
+                if (this.timer.delay > this.delay*1000) {
+                    // if user shortened, take effect immediately
+                    // otherwise takes effect on next cycle
+                    this.timer.delay = this.delay*1000;
+                }
                 break;
             case 'refresh':
                 this.refresh = this.prefs.getBoolPref('refresh');
@@ -92,14 +96,12 @@ var tabslideshow = {
     // handle new tab refresh settings
     checknewtab: function(e)
     {
-        Components.utils.reportError("checknewtab");
         e.target.tabslideshowrefresh = this.refresh;
     },
 
     // per-tab menu adjustments
     tabmenushow: function(e)
     {
-        //Components.utils.reportError('tabmenushow');
         if (e.originalTarget != gBrowser.tabContextMenu) {
             return true;
         }
@@ -134,7 +136,6 @@ var tabslideshow = {
     // toggle whether slideshowing
     toggle: function()
     {
-        Components.utils.reportError("toggle");
         if (this.active) {
             // enabled
             var node = document.getElementById('tabslideshow-toggle');
@@ -149,17 +150,40 @@ var tabslideshow = {
             if (node) node.setAttribute('label', 'Stop Tab Slideshow');
             var node = document.getElementById('tabslideshow-appmenu-toggle');
             if (node) node.setAttribute('label', 'Stop Tab Slideshow');
-            Components.utils.reportError("init timer");
 
-            this.timer.initWithCallback(tabslideshow_cycle, this.delay*1000, Components.interfaces.nsITimer.TYPE_REPEATING_PRECISE);
+            // start timer at 1.5 seconds to provide UI feedback for start action
+            this.timer.initWithCallback({notify: function (timer) {tabslideshow.cycle();}}, 1500, Components.interfaces.nsITimer.TYPE_REPEATING_PRECISE);
             this.active = true;
+        }
+    },
+
+    cycle: function()
+    {
+        // get tab info
+        var numtabs = gBrowser.tabContainer.childNodes.length;
+        var currenttabnum = gBrowser.tabContainer.selectedIndex;
+        var nexttab = gBrowser.tabContainer.childNodes[
+            (currenttabnum + 1) % numtabs];
+        var upcomingtab = gBrowser.tabContainer.childNodes[
+            (currenttabnum + 2) % numtabs];
+
+        // set next tab
+        gBrowser.selectedTab = nexttab;
+
+        // sync timer delay to preference
+        if (this.timer.delay != this.delay*1000) {
+            this.timer.delay = this.delay*1000;
+        }
+
+        // optionally refresh upcoming tab
+        if (upcomingtab.tabslideshowrefresh && (nexttab != upcomingtab)) {
+            gBrowser.reloadTab(upcomingtab);
         }
     },
 
     // change refresh flag on tab
     togglerefresh: function(e)
     {
-        //Components.utils.reportError('togglerefresh');
         e.tabslideshowrefresh = !e.tabslideshowrefresh;
     },
 
@@ -175,7 +199,6 @@ var tabslideshow = {
 // timer event with function to cycle tabs
 var tabslideshow_cycle = {
     notify: function(timer) {
-        Components.utils.reportError("cycle.notify");
         // get tab info
         var numtabs = gBrowser.tabContainer.childNodes.length;
         var currenttabnum = gBrowser.tabContainer.selectedIndex;
@@ -215,7 +238,6 @@ function tabslideshow_gettabcontextmenu()
     return gBrowser.tabContextMenu;
 }
 
-Components.utils.reportError("init");
 window.addEventListener('load', function(e) { tabslideshow.startup(); },
         false);
 window.addEventListener('unload', function(e) { tabslideshow.shutdown(); },
