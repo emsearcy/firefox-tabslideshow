@@ -19,9 +19,11 @@ Licensed under MPL (http://www.mozilla.org/MPL/MPL-1.1.html)
     <preference id="pref_start" name="tabslideshow.start" type="bool" />
     <preference id="pref_refresh" name="tabslideshow.refresh" type="bool" />
     <preference id="pref_time" name="tabslideshow.time" type="int" />
+    <preference id="pref_ignorehidden" name="tabslideshow.ignorehidden" type="bool" />
   </preferences>
 
   <checkbox preference="pref_start" id="pane0_start" label="Begin on startup" />
+  <checkbox preference="pref_ignorehidden" id="pane0_ignorehidden" label="Cycle within current Tab Group" />
   <checkbox preference="pref_refresh" id="pane0_refresh"
       label="New tabs default to auto-refresh"
       tooltiptext="Tip: for existing tabs, use the tab's context (right-click) menu to change its refresh setting"

@@ -18,6 +18,7 @@ var tabslideshow = {
     delay: 5,
     refresh: false,
     timer: null,
+    ignorehidden: true,
 
     // initialize the extension
     startup: function()
@@ -34,6 +35,7 @@ var tabslideshow = {
         // save prefs
         this.delay = this.prefs.getIntPref('time');
         this.refresh = this.prefs.getBoolPref('refresh');
+        this.ignorehidden = this.prefs.getBoolPref('ignorehidden');
 
         // add tab context menu entries and hook
         var tabmenu = tabslideshow_gettabcontextmenu();
@@ -89,6 +91,9 @@ var tabslideshow = {
                 break;
             case 'refresh':
                 this.refresh = this.prefs.getBoolPref('refresh');
+                break;
+            case 'ignorehidden':
+                this.ignorehidden = this.prefs.getBoolPref('ignorehidden');
                 break;
         }
     },
@@ -151,8 +156,10 @@ var tabslideshow = {
             var node = document.getElementById('tabslideshow-appmenu-toggle');
             if (node) node.setAttribute('label', 'Stop Tab Slideshow');
 
-            // start timer at 1.5 seconds to provide UI feedback for start action
-            this.timer.initWithCallback({notify: function (timer) {tabslideshow.cycle();}}, 1500, Components.interfaces.nsITimer.TYPE_REPEATING_PRECISE);
+            // start timer at 1.5 seconds to provide UI feedback
+            this.timer.initWithCallback({notify: function (timer)
+                    {tabslideshow.cycle();}}, 1500,
+                    Components.interfaces.nsITimer.TYPE_REPEATING_PRECISE);
             this.active = true;
         }
     },
@@ -162,10 +169,23 @@ var tabslideshow = {
         // get tab info
         var numtabs = gBrowser.tabContainer.childNodes.length;
         var currenttabnum = gBrowser.tabContainer.selectedIndex;
-        var nexttab = gBrowser.tabContainer.childNodes[
-            (currenttabnum + 1) % numtabs];
-        var upcomingtab = gBrowser.tabContainer.childNodes[
-            (currenttabnum + 2) % numtabs];
+        var currenttab = gBrowser.tabContainer.childNodes[currenttabnum];
+
+        // cycle all tabs or current tab group to find next viable tab
+        var nexttabnum = (currenttabnum + 1) % numtabs;
+        var nexttab = gBrowser.tabContainer.childNodes[nexttabnum];
+        while (nexttab != currenttab && this.ignorehidden && nexttab.hidden) {
+            nexttabnum = (nexttabnum + 1) % numtabs;
+            nexttab = gBrowser.tabContainer.childNodes[nexttabnum];
+        }
+
+        // cycle all tabs or current tab group to find second next viable tab
+        var upcomingtabnum = (nexttabnum + 1) % numtabs;
+        var upcomingtab = gBrowser.tabContainer.childNodes[upcomingtabnum];
+        while (upcomingtab != currenttab && this.ignorehidden && upcomingtab.hidden) {
+            upcomingtabnum = (upcomingtabnum + 1) % numtabs;
+            upcomingtab = gBrowser.tabContainer.childNodes[upcomingtabnum];
+        }
 
         // set next tab
         gBrowser.selectedTab = nexttab;
@@ -176,7 +196,7 @@ var tabslideshow = {
         }
 
         // optionally refresh upcoming tab
-        if (upcomingtab.tabslideshowrefresh && (nexttab != upcomingtab)) {
+        if (upcomingtab.tabslideshowrefresh) {
             gBrowser.reloadTab(upcomingtab);
         }
     },
