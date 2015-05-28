@@ -19,6 +19,7 @@ var tabslideshow = {
     refresh: false,
     timer: null,
     ignorehidden: true,
+    randomorder: false,
 
     // initialize the extension
     startup: function()
@@ -36,6 +37,7 @@ var tabslideshow = {
         this.delay = this.prefs.getIntPref('time');
         this.refresh = this.prefs.getBoolPref('refresh');
         this.ignorehidden = this.prefs.getBoolPref('ignorehidden');
+        this.randomorder = this.prefs.getBoolPref('randomorder');
 
         // add tab context menu entries and hook
         var tabmenu = tabslideshow_gettabcontextmenu();
@@ -94,6 +96,9 @@ var tabslideshow = {
                 break;
             case 'ignorehidden':
                 this.ignorehidden = this.prefs.getBoolPref('ignorehidden');
+                break;
+            case 'randomorder':
+                this.randomorder = this.prefs.getBoolPref('randomorder');
                 break;
         }
     },
@@ -172,7 +177,22 @@ var tabslideshow = {
         var currenttab = gBrowser.tabContainer.childNodes[currenttabnum];
 
         // cycle all tabs or current tab group to find next viable tab
-        var nexttabnum = (currenttabnum + 1) % numtabs;
+        var nexttabnum;
+        if(this.randomorder)
+        {
+            if(numtabs === 1)
+                nexttabnum = 0;
+            else
+            {
+                do
+                {
+                    nexttabnum = Math.floor((Math.random() * numtabs));
+
+                }while(nexttabnum === currenttabnum);
+            }
+        }
+        else
+            nexttabnum = (currenttabnum + 1) % numtabs;
         var nexttab = gBrowser.tabContainer.childNodes[nexttabnum];
         while (nexttab != currenttab && this.ignorehidden && nexttab.hidden) {
             nexttabnum = (nexttabnum + 1) % numtabs;
